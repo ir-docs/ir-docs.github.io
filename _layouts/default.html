@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ page.title | default: site.title }} — {{ site.title }}</title>
+  <style>
+    :root{--o:#f97316;--od:#ea580c;--soft:#ffedd5;--txt:#3a2a1a;--mut:#7c4a2f;--bd:rgba(234,88,12,.18);--sh:0 14px 40px rgba(249,115,22,.18)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Arial,Helvetica,sans-serif;color:var(--txt);line-height:1.75;
+      background:linear-gradient(rgba(255,247,237,.72),rgba(255,237,213,.72)),url("/628A3C70-B8BE-48C8-9FFD-6DEA8D7746C7.png");
+      background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;
+    }
+    header{background:linear-gradient(90deg,rgba(249,115,22,.86),rgba(234,88,12,.86));color:#fff;text-align:center;padding:26px 16px 14px}
+    .nav{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .nav a{background:#fff;border:1px solid rgba(234,88,12,.25);color:var(--od);padding:8px 14px;border-radius:999px;font-weight:900;text-decoration:none}
+    .wrap{max-width:1100px;margin:22px auto 60px;padding:0 16px}
+    .card{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:22px;box-shadow:var(--sh);margin:16px 0}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{ site.title }}</h1>
+    <p>Public documentation and open-source evidence archive</p>
+    {% include nav.html %}
+  </header>
+  <main class="wrap">
+    {{ content }}
+  </main>
+</body>
+</html>
