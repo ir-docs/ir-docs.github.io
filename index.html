@@ -12,15 +12,16 @@
       --orangeDark:#ea580c;
       --soft:#ffedd5;
       --cream:#fff7ed;
-      --card:#ffffff;
-      --text:#3a2a1a;         /* warm (not black) */
+
+      --text:#3a2a1a;      /* warm, not black */
       --muted:#7c4a2f;
+      --border: rgba(234,88,12,.18);
+
       --shadow: 0 14px 40px rgba(249,115,22,.18);
       --shadow2: 0 10px 26px rgba(249,115,22,.15);
-      --border: rgba(234,88,12,.18);
     }
 
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
 
     body{
       margin:0;
@@ -28,10 +29,10 @@
       color: var(--text);
       line-height: 1.75;
 
-      /* Background image + warm overlay (NO black) */
+      /* Background image (your uploaded file) + warm overlay */
       background:
         linear-gradient(rgba(255,247,237,.92), rgba(255,237,213,.92)),
-        url("/628A3C70-B8BE-48C8-9FFD-6DEA8D7746C7.png");
+        url("628A3C70-B8BE-48C8-9FFD-6DEA8D7746C7.png");
       background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
@@ -59,7 +60,7 @@
     }
     header p{
       margin: 10px auto 0;
-      max-width: 900px;
+      max-width: 920px;
       opacity: .95;
     }
 
@@ -71,13 +72,13 @@
       flex-wrap:wrap;
     }
     .nav a{
-      background: rgba(255,255,255,.80);
+      background: rgba(255,255,255,.82);
       border: 1px solid rgba(234,88,12,.22);
       color: var(--orangeDark);
       padding: 8px 12px;
       border-radius: 999px;
     }
-    .nav a:hover{ background: rgba(255,255,255,.95); }
+    .nav a:hover{ background: rgba(255,255,255,.97); }
 
     .wrap{
       max-width: 1040px;
@@ -99,6 +100,14 @@
       font-size: 22px;
     }
     .hero p{ margin:0; }
+
+    .note{
+      background: rgba(255,237,213,.92);
+      border-left: 6px solid var(--orange);
+      padding: 14px;
+      border-radius: 12px;
+      margin: 14px 0;
+    }
 
     .grid{
       display:grid;
@@ -128,19 +137,11 @@
       line-height: 1.7;
     }
 
-    .note{
-      background: rgba(255,237,213,.92);
-      border-left: 6px solid var(--orange);
-      padding: 14px;
-      border-radius: 12px;
-      margin: 14px 0;
-    }
-
     .case{
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.78);
       margin-top: 12px;
     }
     .caseTitle{
@@ -177,11 +178,11 @@
       padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid rgba(234,88,12,.25);
-      background: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.88);
       color: var(--orangeDark);
       font-weight: 800;
     }
-    .btn:hover{ background: rgba(255,255,255,.98); }
+    .btn:hover{ background: rgba(255,255,255,.99); }
 
     footer{
       text-align:center;
@@ -245,10 +246,6 @@
         <p class="small">
           The purpose is transparency and long-term reference — not commentary or political advocacy.
         </p>
-        <div class="note">
-          <strong>Next:</strong><br>
-          A “Countries (flags)” section will be added after uploading flag icons.
-        </div>
       </aside>
 
     </div>
