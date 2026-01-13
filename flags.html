@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>World Flags — ir-docs</title>
+
+<style>
+:root{--o:#f97316;--od:#ea580c;--soft:#ffedd5;--txt:#3a2a1a;--mut:#7c4a2f;--bd:rgba(234,88,12,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff7ed,#ffedd5);color:var(--txt);line-height:1.7}
+a{color:var(--od);font-weight:900;text-decoration:none}
+a:hover{text-decoration:underline}
+a:visited{color:var(--od)}
+header{background:linear-gradient(90deg,rgba(249,115,22,.86),rgba(234,88,12,.86));color:#fff;text-align:center;padding:26px 16px 14px}
+nav{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+nav a{background:rgba(255,255,255,.90);border:1px solid rgba(234,88,12,.25);color:var(--od);padding:9px 14px;border-radius:999px}
+.wrap{max-width:1200px;margin:18px auto 60px;padding:0 16px}
+.toolbar{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:0 12px 30px rgba(249,115,22,.12);display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+input{flex:1 1 280px;padding:10px 12px;border-radius:12px;border:1px solid rgba(234,88,12,.25);outline:none;color:var(--txt);background:#fff}
+.meta{color:var(--mut);font-weight:900;font-size:13px}
+.note{margin-top:14px;background:rgba(255,237,213,.95);border-left:6px solid var(--o);padding:12px 14px;border-radius:12px;color:var(--mut);font-weight:900}
+.grid{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.item{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:12px;text-align:center;box-shadow:0 10px 24px rgba(249,115,22,.10)}
+.flag{width:60px;height:40px;object-fit:cover;border-radius:8px;border:1px solid rgba(234,88,12,.18);background:#fff;display:block;margin:0 auto 8px}
+.name{font-weight:900;color:var(--od);font-size:13px;line-height:1.25}
+.code{margin-top:6px;font-size:12px;color:var(--mut);font-weight:900}
+footer{text-align:center;color:var(--mut);font-size:13px;margin-top:22px}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>World Flags</h1>
+  <p>All countries with names — Iran uses Lion & Sun flag</p>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/docs/case-001.html">Case 001</a>
+    <a href="/flags.html">Flags</a>
+    <a href="/rights.html">Human Rights</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <input id="q" type="text" placeholder="Search country (e.g., Iran, France, Japan)..." />
+    <div class="meta" id="count">Loading…</div>
+  </div>
+
+  <div class="note">
+    If the external flag service is unavailable, you will still see an error message (no broken layout).
+    Iran is always displayed from <strong>/flags/iran-lion-sun.png</strong>.
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <footer>© ir-docs.github.io</footer>
+</div>
+
+<script>
+const COUNTRIES_JSON = "https://cdn.simplelocalize.io/public/v1/countries";
+const FLAG_CDN = iso2 => `https://flagcdn.com/w80/${iso2.toLowerCase()}.png`;
+const IRAN_ISO2 = "IR";
+const IRAN_LOCAL = "/flags/iran-lion-sun.png";
+
+const grid = document.getElementById("grid");
+const q = document.getElementById("q");
+const count = document.getElementById("count");
+
+const normalize = s => (s||"").toLowerCase().trim();
+let all = [];
+
+function makeItem(name, iso2){
+  const el = document.createElement("div");
+  el.className = "item";
+  const src = (iso2 === IRAN_ISO2) ? IRAN_LOCAL : FLAG_CDN(iso2);
+  el.innerHTML = `
+    <img class="flag" src="${src}" alt="${name}" loading="lazy"
+         onerror="this.style.display='none'">
+    <div class="name">${name}</div>
+    <div class="code">${iso2}</div>
+  `;
+  return el;
+}
+
+function render(list){
+  grid.innerHTML = "";
+  list.forEach(c => {
+    const name = c.name || c.label || c.country || "Unknown";
+    const iso2 = (c.iso2 || c.code || c.countryCode || "").toUpperCase();
+    if(!iso2) return;
+    grid.appendChild(makeItem(name, iso2));
+  });
+  count.textContent = `${list.length} countries`;
+}
+
+async function load(){
+  try{
+    const res = await fetch(COUNTRIES_JSON, { cache: "no-store" });
+    const data = await res.json();
+    all = Array.isArray(data) ? data : (data.items || data.data || []);
+    all = all.filter(c => (c.iso2||c.code||c.countryCode) && (c.name||c.label||c.country));
+    all.sort((a,b) => (a.name||a.label||"").localeCompare(b.name||b.label||""));
+    render(all);
+  }catch(e){
+    count.textContent = "Failed to load country list";
+    grid.innerHTML = `<div class="note">Could not load the external countries/flags list. Please try again later.</div>`;
+  }
+}
+
+q.addEventListener("input", () => {
+  const t = normalize(q.value);
+  if(!t){ render(all); return; }
+  const filtered = all.filter(c =>
+    normalize(c.name||c.label||c.country).includes(t) ||
+    normalize(c.iso2||c.code||c.countryCode).includes(t)
+  );
+  render(filtered);
+});
+
+load();
+</script>
+</body>
+</html>
