@@ -1,257 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ir-docs — Public Documentation Archive</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ir-docs — Public Documentation Archive</title>
 
-  <style>
-    :root{
-      --orange: #f97316;
-      --orange2:#fb923c;
-      --orangeDark:#ea580c;
-      --soft:#ffedd5;
-      --cream:#fff7ed;
+<style>
+:root{
+  --o:#f97316;
+  --od:#ea580c;
+  --o2:#fb923c;
+  --soft:#ffedd5;
+  --cream:#fff7ed;
+  --text:#3a2a1a;
+  --muted:#7c4a2f;
+  --border:rgba(234,88,12,.18);
+  --shadow:0 18px 45px rgba(249,115,22,.18);
+}
 
-      --text:#3a2a1a;      /* warm, not black */
-      --muted:#7c4a2f;
-      --border: rgba(234,88,12,.18);
+*{box-sizing:border-box;margin:0;padding:0}
 
-      --shadow: 0 14px 40px rgba(249,115,22,.18);
-      --shadow2: 0 10px 26px rgba(249,115,22,.15);
-    }
+html,body{height:100%}
 
-    *{ box-sizing:border-box; }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  line-height:1.75;
+  background:
+    linear-gradient(rgba(255,247,237,.72),rgba(255,237,213,.72)),
+    url("628A3C70-B8BE-48C8-9FFD-6DEA8D7746C7.png");
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
 
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      line-height: 1.75;
+a{color:var(--od);font-weight:900;text-decoration:none}
+a:hover{text-decoration:underline}
+a:visited{color:var(--od)}
 
-      /* Background image (your uploaded file) + warm overlay */
-      background:
-        linear-gradient(rgba(255,247,237,.92), rgba(255,237,213,.92)),
-        url("628A3C70-B8BE-48C8-9FFD-6DEA8D7746C7.png");
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
+header{
+  background:linear-gradient(90deg,rgba(249,115,22,.86),rgba(234,88,12,.86));
+  color:#fff;
+  text-align:center;
+  padding:34px 16px 16px;
+  box-shadow:0 12px 30px rgba(249,115,22,.22);
+}
 
-    a{
-      color: var(--orangeDark);
-      font-weight: 700;
-      text-decoration: none;
-    }
-    a:hover{ text-decoration: underline; }
+header h1{font-size:34px;letter-spacing:.5px}
+header p{margin-top:10px;opacity:.96}
 
-    header{
-      background: linear-gradient(90deg, rgba(249,115,22,.92), rgba(234,88,12,.92));
-      color:#fff;
-      padding: 34px 18px 18px;
-      text-align: center;
-      box-shadow: 0 12px 30px rgba(249,115,22,.22);
-    }
-    header h1{
-      margin:0;
-      font-size: 34px;
-      letter-spacing: .5px;
-    }
-    header p{
-      margin: 10px auto 0;
-      max-width: 920px;
-      opacity: .95;
-    }
+nav{
+  margin-top:14px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
 
-    .nav{
-      margin-top: 14px;
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    .nav a{
-      background: rgba(255,255,255,.82);
-      border: 1px solid rgba(234,88,12,.22);
-      color: var(--orangeDark);
-      padding: 8px 12px;
-      border-radius: 999px;
-    }
-    .nav a:hover{ background: rgba(255,255,255,.97); }
+nav a{
+  background:rgba(255,255,255,.90);
+  border:1px solid rgba(234,88,12,.25);
+  color:var(--od);
+  padding:9px 14px;
+  border-radius:999px;
+  font-weight:900;
+}
 
-    .wrap{
-      max-width: 1040px;
-      margin: 26px auto 60px;
-      padding: 0 16px;
-    }
+main{
+  max-width:1100px;
+  margin:34px auto 60px;
+  padding:0 16px;
+}
 
-    .hero{
-      background: rgba(255,255,255,.90);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-    }
-    .hero h2{
-      margin: 0 0 10px;
-      color: var(--orangeDark);
-      font-size: 22px;
-    }
-    .hero p{ margin:0; }
+.card{
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:var(--shadow);
+  margin:18px 0;
+}
 
-    .note{
-      background: rgba(255,237,213,.92);
-      border-left: 6px solid var(--orange);
-      padding: 14px;
-      border-radius: 12px;
-      margin: 14px 0;
-    }
+.card h2,.card h3{color:var(--od);margin-bottom:10px}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap: 16px;
-    }
-    @media(max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-    }
+.note{
+  background:rgba(255,237,213,.95);
+  border-left:6px solid var(--o);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  color:var(--muted);
+  font-weight:800;
+}
 
-    .card{
-      background: rgba(255,255,255,.92);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: var(--shadow2);
-    }
-    .card h3{
-      margin: 0 0 10px;
-      color: var(--orangeDark);
-      font-size: 18px;
-    }
-    .small{
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
 
-    .case{
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      background: rgba(255,255,255,.78);
-      margin-top: 12px;
-    }
-    .caseTitle{
-      font-size: 16px;
-      margin: 0 0 6px;
-      color: var(--text);
-      font-weight: 800;
-    }
-    .badge{
-      display:inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(234,88,12,.25);
-      background: rgba(249,115,22,.14);
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 12px;
-    }
-    .meta{
-      margin-top: 6px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .btnRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(234,88,12,.25);
-      background: rgba(255,255,255,.88);
-      color: var(--orangeDark);
-      font-weight: 800;
-    }
-    .btn:hover{ background: rgba(255,255,255,.99); }
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:28px;
+}
 
-    footer{
-      text-align:center;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 22px;
-    }
-  </style>
+small{color:var(--muted);font-weight:800}
+
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>ir-docs</h1>
-    <p>Public documentation and open-source evidence archive (warm orange theme, no black).</p>
+<header>
+  <h1>ir-docs</h1>
+  <p>Public documentation and open-source evidence archive</p>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/docs/case-001.html">Case 001</a>
+    <a href="/flags.html">Flags</a>
+    <a href="/rights.html">Human Rights</a>
+  </nav>
+</header>
 
-    <div class="nav">
-      <a href="/">Home</a>
-      <a href="/docs/case-001.html">Case 001</a>
+<main>
+
+  <section class="card">
+    <h2>What is this website?</h2>
+    <p>
+      This website is an independent public documentation archive. It preserves publicly available
+      open-source material for journalistic, research, and historical reference.
+    </p>
+    <div class="note">
+      Each “Case” represents one documented event with links to original public sources.
     </div>
-  </header>
+  </section>
 
-  <div class="wrap">
-
-    <section class="hero">
-      <h2>What is this website?</h2>
-      <p>
-        This website is an independent public documentation archive. It preserves and organizes publicly available
-        open-source information related to reported events for journalistic, research, and historical reference.
-      </p>
-      <div class="note">
-        <strong>How to read this site:</strong><br>
-        Each “Case” represents one documented event. Each case page includes a clear explanation and links to original
-        public sources so readers can independently review the information.
-      </div>
-    </section>
-
-    <div class="grid">
-
-      <section class="card">
-        <h3>Latest documented case</h3>
-        <p class="small">Most recent archived item(s). Verification status may evolve over time.</p>
-
-        <div class="case">
-          <p class="caseTitle">Case 001 — Reported incident in Iran (11 January 2026)</p>
-          <span class="badge">Verification ongoing</span>
-          <div class="meta">Open-source video links · Public reference page</div>
-
-          <div class="btnRow">
-            <a class="btn" href="/docs/case-001.html">Open case page →</a>
-          </div>
-        </div>
-      </section>
-
-      <aside class="card">
-        <h3>Method & disclaimer</h3>
-        <p class="small">
-          This archive republishes links and references to publicly available material. No personal data is intentionally
-          collected or published. Responsibility for original content remains with the source publishers.
-        </p>
-        <p class="small">
-          The purpose is transparency and long-term reference — not commentary or political advocacy.
-        </p>
-      </aside>
-
+  <section class="grid">
+    <div class="card">
+      <h3>Latest documented case</h3>
+      <p><a href="/docs/case-001.html">Case 001 — Reported incident in Iran (11 January 2026)</a></p>
+      <small>Verification status: ongoing</small>
     </div>
 
-    <footer>© ir-docs.github.io — Hosted on GitHub Pages</footer>
-  </div>
+    <div class="card">
+      <h3>Quick links</h3>
+      <p><a href="/flags.html">World flags (Iran: Lion & Sun)</a></p>
+      <p><a href="/rights.html">Universal Declaration of Human Rights (FA/EN)</a></p>
+      <small>No personal data is intentionally collected.</small>
+    </div>
+  </section>
+
+  <footer>© ir-docs.github.io</footer>
+</main>
 
 </body>
 </html>
