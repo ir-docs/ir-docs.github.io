@@ -1,10 +1,4 @@
 name: Auto News
-
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "*/30 * * * *"   # هر 30 دقیقه
-
 permissions:
   contents: write
 on:
