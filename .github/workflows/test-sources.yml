@@ -1,0 +1,22 @@
+name: Test News Sources
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-feeds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Test RSS sources
+        run: |
+          echo "Testing Iran International"
+          curl -I https://www.iranintl.com/rss
+
+          echo "Testing BBC Persian"
+          curl -I https://feeds.bbci.co.uk/persian/rss.xml
+
+          echo "Testing Reuters"
+          curl -I https://www.reuters.com/rssFeed/worldNews
