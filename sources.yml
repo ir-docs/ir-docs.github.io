@@ -1,0 +1,15 @@
+iran_news_sources:
+  - name: Iran International
+    type: rss
+    language: fa
+    url: https://www.iranintl.com/rss
+
+  - name: BBC Persian
+    type: rss
+    language: fa
+    url: https://feeds.bbci.co.uk/persian/rss.xml
+
+  - name: Reuters
+    type: rss
+    language: en
+    url: https://www.reuters.com/rssFeed/worldNews
