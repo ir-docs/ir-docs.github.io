@@ -1,3 +1,28 @@
+keywords_iran:
+  - Iran
+  - Tehran
+  - IRGC
+  - Protest
+  - Human Rights
+  - Arrest
+  - Execution
+  - Internet shutdown
+  - Crackdown
+
+keywords_world:
+  - Breaking
+  - Urgent
+  - War
+  - Attack
+  - Explosion
+  - Ceasefire
+  - Sanctions
+  - UN
+  - Nuclear
+  - Earthquake
+  - Flood
+  - Crisis
+
 iran_news_sources:
   - name: Iran International
     type: rss
@@ -9,7 +34,23 @@ iran_news_sources:
     language: fa
     url: https://feeds.bbci.co.uk/persian/rss.xml
 
-  - name: Reuters
+  - name: Reuters (World)
     type: rss
     language: en
     url: https://www.reuters.com/rssFeed/worldNews
+
+world_news_sources:
+  - name: Reuters (World)
+    type: rss
+    language: en
+    url: https://www.reuters.com/rssFeed/worldNews
+
+  - name: BBC World
+    type: rss
+    language: en
+    url: https://feeds.bbci.co.uk/news/world/rss.xml
+
+  - name: AP World
+    type: rss
+    language: en
+    url: https://apnews.com/hub/world-news?output=rss
