@@ -1,106 +1,93 @@
-import os
 import re
 import datetime as dt
 from pathlib import Path
-
 import feedparser
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 NEWS_DIR = ROOT / "news"
 
-DEFAULT_KEYWORDS = [
-    "iran", "tehran", "irgc", "islamic republic", "protest", "human rights"
-]
-
-def clean(text: str) -> str:
+def clean(text):
     if not text:
         return ""
-    text = re.sub(r"<[^>]+>", " ", text)   # strip basic HTML
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
 
-def match_iran(text: str, keywords) -> bool:
-    t = (text or "").lower()
+def match_keywords(text, keywords):
+    t = text.lower()
     return any(k.lower() in t for k in keywords)
 
-def main():
-    sources_file = ROOT / "sources.yml"
-    if not sources_file.exists():
-        raise SystemExit("sources.yml not found in repo root")
-
-    cfg = yaml.safe_load(sources_file.read_text(encoding="utf-8")) or {}
-    feeds = cfg.get("iran_news_sources", [])
-    keywords = cfg.get("keywords", DEFAULT_KEYWORDS)
-
-    NEWS_DIR.mkdir(parents=True, exist_ok=True)
-
+def collect(feeds, keywords, limit=12):
     items = []
     for f in feeds:
-        name = f.get("name", "Source")
-        url = f.get("url")
-        if not url:
-            continue
-
-        d = feedparser.parse(url)
-        for e in getattr(d, "entries", [])[:50]:
+        src = f.get("name", "Source")
+        d = feedparser.parse(f.get("url"))
+        for e in d.entries[:40]:
             title = clean(getattr(e, "title", ""))
-            link = clean(getattr(e, "link", ""))
             summary = clean(getattr(e, "summary", ""))
-
-            blob = f"{title} {summary} {link}"
-            # Reuters world feed is broad -> keyword filter; others are Iran-focused anyway
-            if match_iran(blob, keywords) or "reuters" not in name.lower():
-                items.append({
-                    "source": name,
-                    "title": title,
-                    "link": link,
-                    "summary": summary[:280]  # keep short
-                })
-
-    # Deduplicate by link
+            link = getattr(e, "link", "")
+            blob = f"{title} {summary}"
+            if match_keywords(blob, keywords):
+                items.append((title, summary, link, src))
     seen = set()
-    uniq = []
-    for it in items:
-        if it["link"] and it["link"] not in seen:
-            seen.add(it["link"])
-            uniq.append(it)
+    unique = []
+    for i in items:
+        if i[2] not in seen:
+            seen.add(i[2])
+            unique.append(i)
+    return unique[:limit]
 
-    # Limit output
-    uniq = uniq[:25]
+def main():
+    cfg = yaml.safe_load((ROOT / "sources.yml").read_text(encoding="utf-8"))
 
-    # File name by UTC time to avoid collisions
+    iran_items = collect(
+        cfg["iran_news_sources"],
+        cfg["keywords_iran"]
+    )
+
+    world_items = collect(
+        cfg["world_news_sources"],
+        cfg["keywords_world"]
+    )
+
+    NEWS_DIR.mkdir(exist_ok=True)
+
     now = dt.datetime.utcnow()
-    slug = now.strftime("%Y-%m-%d-%H%M")
-    out = NEWS_DIR / f"auto-{slug}.md"
+    fname = NEWS_DIR / f"auto-{now.strftime('%Y-%m-%d-%H%M')}.md"
 
-    lines = []
-    lines += ["---",
-              "layout: news",
-              f"title: Auto News – {now.strftime('%Y-%m-%d %H:%M')} UTC",
-              f"date: {now.strftime('%Y-%m-%d')}",
-              "---",
-              "",
-              "> Auto-generated: headlines + short snippets + source links only.",
-              ""]
+    lines = [
+        "---",
+        "layout: news",
+        f"title: Auto News – {now.strftime('%Y-%m-%d %H:%M')} UTC",
+        f"date: {now.strftime('%Y-%m-%d')}",
+        "---",
+        "",
+        "## 🇮🇷 Iran — Important headlines",
+        ""
+    ]
 
-    if not uniq:
-        lines.append("No matching items found.")
-    else:
-        for it in uniq:
-            lines.append(f"## {it['title']}")
-            lines.append(f"**Source:** {it['source']}")
-            lines.append("")
-            if it["summary"]:
-                lines.append(it["summary"])
-                lines.append("")
-            lines.append(f"[Open source link]({it['link']})")
-            lines.append("")
-            lines.append("---")
-            lines.append("")
+    for t, s, l, src in iran_items:
+        lines += [
+            f"### {t}",
+            f"*Source:* {src}",
+            s,
+            f"[Open source link]({l})",
+            ""
+        ]
 
-    out.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote: {out}")
+    lines += ["---", "", "## 🌍 World — Important headlines", ""]
+
+    for t, s, l, src in world_items:
+        lines += [
+            f"### {t}",
+            f"*Source:* {src}",
+            s,
+            f"[Open source link]({l})",
+            ""
+        ]
+
+    fname.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Generated {fname}")
 
 if __name__ == "__main__":
     main()
