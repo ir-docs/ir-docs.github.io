@@ -1,0 +1,35 @@
+name: Auto News
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"   # هر 30 دقیقه
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install feedparser pyyaml
+
+      - name: Generate news file
+        run: python scripts/fetch_news.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "ir-docs-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add news/auto-*.md
+          git commit -m "Auto news update" || exit 0
+          git push
