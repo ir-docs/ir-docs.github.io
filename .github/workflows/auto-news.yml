@@ -7,7 +7,10 @@ on:
 
 permissions:
   contents: write
-
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
 jobs:
   run:
     runs-on: ubuntu-latest
