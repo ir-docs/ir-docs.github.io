@@ -121,6 +121,33 @@ small{color:var(--muted);font-weight:800}
     <p>Public documentation and open-source evidence archive</p>
   </div>
 </header>  
+  <section style="max-width:1100px;margin:18px auto;padding:0 16px;">
+  <button id="showVideoBtn"
+    style="padding:12px 18px;border-radius:999px;border:1px solid rgba(0,0,0,.2);
+           background:#fff;cursor:pointer;font-size:16px;">
+    ▶️ مشاهده ویدئو
+  </button>
+
+  <div id="videoBox" style="display:none;margin-top:14px;">
+    <div style="position:relative;padding-top:56.25%;border-radius:16px;
+                overflow:hidden;border:1px solid rgba(0,0,0,.12);background:#000;">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/NlRWcVE7lEI?rel=0"
+        title="Video"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('showVideoBtn').addEventListener('click', function () {
+    document.getElementById('videoBox').style.display = 'block';
+    this.style.display = 'none';
+  });
+</script>
   <nav>
   <a href="/">Home</a>
   <a href="/docs/case-001.html">Case 001</a>
